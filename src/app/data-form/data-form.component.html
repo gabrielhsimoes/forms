@@ -1,1 +1,123 @@
-<p>data-form works!</p>
+<form novalidate [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="form-group" [ngClass]="aplicaCSSErro('nome')">
+        <div class="col-sm-12">
+            <label for="nome" class="form-label">Nome:</label>
+        </div>
+
+        <div class="col-sm-12">
+            <input type="text" class="form-control" formControlName="nome" id="nome" placeholder="Nome" required />
+
+        </div>
+
+        <!-- *ngIf="!formulario.controls['nome'].valid && formulario.controls['nome'].touched"  -->
+        <div *ngIf="verificaValidTouched('nome')" class="alert alert-danger" role="alert">
+            Nome é Obrigatório
+        </div>
+
+    </div>
+    <br />
+
+    <div class="form-group" [ngClass]="aplicaCSSErro('email')">
+
+        <div class="col-sm-12">
+            <label for="email" class="form-label">Email:</label>
+        </div>
+
+        <div class="col-sm-12">
+            <input type="email" class="form-control" formControlName="email" id="email" placeholder="nome@email.com" required />
+
+        </div>
+        <!-- *ngIf="!formulario.controls['email'].valid && formulario.controls['email'].touched"  -->
+        <div *ngIf="verificaValidTouched('email')" class="alert alert-danger" role="alert">
+            Email é Obrigatório
+        </div>
+
+        <br>
+    </div>
+
+    <div formGroupName="endereco">
+
+        <div class="form-group row">
+    
+            <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.cep')">
+                <label for="cep" class="control-label">CEP:</label>
+                <input type="text" class="form-control" id="cep" formControlName="cep">
+    
+                <div *ngIf="verificaValidTouched('endereco.cep')" class="alert alert-danger" role="alert">
+                    CEP é Obrigatório!
+                </div>
+    
+            </div>
+    
+            <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.numero')">
+                <label for="numero" class="control-label">Número:</label>
+                <input type="text" class="form-control" id="numero" formControlName="numero">
+    
+                <div *ngIf="verificaValidTouched('endereco.numero')" class="alert alert-danger" role="alert">
+                    Número é Obrigatório!
+                </div>
+    
+            </div>
+    
+            <div class="col-md-6">
+                <label for="complemento" class="control-label">Complemento:</label>
+                <input type="text" class="form-control" id="complemento" formControlName="complemento">
+    
+            </div>
+        </div>
+        <br>
+        <div class="form-group" [ngClass]="aplicaCSSErro('endereco.rua')">
+            <div class="col-sm-12">
+                <label for="rua" class="form-label">Rua:</label>
+            </div>
+    
+            <div class="col-sm-12">
+                <input type="text" class="form-control" id="rua" formControlName="rua"/>
+    
+                <div *ngIf="verificaValidTouched('endereco.rua')" class="alert alert-danger" role="alert">
+                    Rua é Obrigatório
+                </div>
+            </div>
+    
+        </div>
+        <br>
+        <div class="form-group row">
+            <div class="col-md-5" [ngClass]="aplicaCSSErro('endereco.bairro')">
+                <label for="bairro" class="control-label">Bairro:</label>
+                <input type="text" class="form-control" id="bairro" formControlName="bairro">
+    
+                <div *ngIf="verificaValidTouched('endereco.bairro')" class="alert alert-danger" role="alert">
+                    Bairro é Obrigatório!
+                </div>
+    
+            </div>
+    
+            <div class="col-md-4" [ngClass]="aplicaCSSErro('endereco.cidade')">
+                <label for="cidade" class="control-label">Cidade:</label>
+                <input type="text" class="form-control" id="cidade" formControlName="cidade">
+    
+                <div *ngIf="verificaValidTouched('endereco.cidade')" class="alert alert-danger" role="alert">
+                    Cidade é Obrigatório!
+                </div>
+                
+            </div>
+    
+            <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.estado')">
+                <label for="estado" class="control-label">Estado:</label>
+                <input type="text" class="form-control" id="estado" formControlName="estado" required>
+    
+                <div *ngIf="verificaValidTouched('endereco.estado')" class="alert alert-danger" role="alert">
+                    Estado é Obrigatório!
+                </div>
+    
+            </div>
+    
+        </div>
+        </div>
+
+    <button type="submit" class="btn btn-primary" style="margin-right: 0.5em;"> Submit </button>
+
+    <button class="btn btn-secondary" (click)="resetar()"> Cancelar </button>
+
+    <app-form-debug [form]="formulario"></app-form-debug>
+</form>
