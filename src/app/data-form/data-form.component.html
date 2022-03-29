@@ -41,7 +41,7 @@
     
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.cep')">
                 <label for="cep" class="control-label">CEP:</label>
-                <input type="text" class="form-control" id="cep" formControlName="cep">
+                <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultaCEP()" required>
     
                 <div *ngIf="verificaValidTouched('endereco.cep')" class="alert alert-danger" role="alert">
                     CEP é Obrigatório!
@@ -51,7 +51,7 @@
     
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.numero')">
                 <label for="numero" class="control-label">Número:</label>
-                <input type="text" class="form-control" id="numero" formControlName="numero">
+                <input type="text" class="form-control" id="numero" formControlName="numero" required>
     
                 <div *ngIf="verificaValidTouched('endereco.numero')" class="alert alert-danger" role="alert">
                     Número é Obrigatório!
@@ -72,7 +72,7 @@
             </div>
     
             <div class="col-sm-12">
-                <input type="text" class="form-control" id="rua" formControlName="rua"/>
+                <input type="text" class="form-control" id="rua" formControlName="rua" required/>
     
                 <div *ngIf="verificaValidTouched('endereco.rua')" class="alert alert-danger" role="alert">
                     Rua é Obrigatório
@@ -84,7 +84,7 @@
         <div class="form-group row">
             <div class="col-md-5" [ngClass]="aplicaCSSErro('endereco.bairro')">
                 <label for="bairro" class="control-label">Bairro:</label>
-                <input type="text" class="form-control" id="bairro" formControlName="bairro">
+                <input type="text" class="form-control" id="bairro" formControlName="bairro" required>
     
                 <div *ngIf="verificaValidTouched('endereco.bairro')" class="alert alert-danger" role="alert">
                     Bairro é Obrigatório!
@@ -94,7 +94,7 @@
     
             <div class="col-md-4" [ngClass]="aplicaCSSErro('endereco.cidade')">
                 <label for="cidade" class="control-label">Cidade:</label>
-                <input type="text" class="form-control" id="cidade" formControlName="cidade">
+                <input type="text" class="form-control" id="cidade" formControlName="cidade" required>
     
                 <div *ngIf="verificaValidTouched('endereco.cidade')" class="alert alert-danger" role="alert">
                     Cidade é Obrigatório!
@@ -114,8 +114,8 @@
     
         </div>
         </div>
-
-    <button type="submit" class="btn btn-primary" style="margin-right: 0.5em;"> Submit </button>
+        <br>
+    <button type="submit" class="btn btn-primary" style="margin-right: 0.5em;" > Submit </button>
 
     <button class="btn btn-secondary" (click)="resetar()"> Cancelar </button>
 
