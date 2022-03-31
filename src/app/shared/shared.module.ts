@@ -17,6 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
   exports: [
     FormDebugComponent
   ],
-  providers: [DropdownService]
+  // providers: [DropdownService]
 })
 export class SharedModule { }
