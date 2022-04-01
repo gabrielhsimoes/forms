@@ -153,7 +153,7 @@
     </div>
     <br>
 
-    <div class="form-group">
+    <div class="form-group row">
         <div class="col-md-3" [ngClass]="aplicaCSSErro('termos')">
             <div class="form-check">
                 <label class="form-check-label">
@@ -164,6 +164,25 @@
         <div *ngIf="verificaValidTouched('termos')" class="alert alert-danger" role="alert">
             Por favor, aceite os termos.
         </div>
+
+        <div class="col-md-3" [ngClass]="aplicaCSSErro('frameworks')">
+            <div class="row">
+            <label for="frameworks">Frameworks:</label>
+            <div id="frameworks">
+                <div class="form-check col-sm-4" formArrayName="frameworks" 
+                *ngFor="let item of getFrameworksControls(); let i = index">
+                    <label class="form-check-label">
+                        <input type="checkbox" required [formControlName]="i"> {{ frameworks[i] }}
+                    </label>
+                </div>
+                
+            </div>
+            </div>
+        </div>
+        <div *ngIf="verificaValidTouched('frameworks')" class="alert alert-danger" role="alert">
+            Selecione uma opção
+        </div>
+       
     </div>
     <br>
     <button type="submit" class="btn btn-primary" style="margin-right: 0.5em;"> Submit </button>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
@@ -19,6 +19,8 @@ export class DataFormComponent implements OnInit {
   cargos!: any[];
   tecnologias!: any[];
   newsletterOp!: any[];
+
+  frameworks = ['Angular', 'React', 'Vue', 'Sencha'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,16 +63,65 @@ export class DataFormComponent implements OnInit {
       tecnologias: [null],
       // newsletter: [null]
       newsletter: ['s'],
-      termos: [null, Validators.pattern('true')]
+      termos: [null, Validators.pattern('true')],
+      frameworks: this.buildFrameworks()
     });
+
+    console.log(this.buildFrameworks());
+    console.log(this.formulario);
+  }
+
+
+  buildFrameworks(){
+    const values = this.frameworks.map(v => new FormControl(false));
+
+    return this.formBuilder.array(values, this.requiredMinCheckbox(1));
+
+    // this.formBuilder.array ([
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false)
+    // ])
+  }
+
+  requiredMinCheckbox(min = 1){
+    const validator = (formArray: FormArray) => {
+      // const values = formArray.controls;
+      // let totalChecked = 0;
+      // for(let i=0; i < values.length; i++){
+      //   if(values[i].value){
+      //     totalChecked += 1;
+      //   }
+      // }
+      const totalChecked = formArray.controls
+      .map(v => v.value)
+      .reduce((total, current) => current ? total + current : total, 0)
+
+      return totalChecked >= min ? null : { required: true }
+    };
+    return validator;
+  }
+
+  getFrameworksControls(){
+    return this.formulario.get('frameworks') ? (<FormArray>this.formulario.get('frameworks')).controls : null;
   }
 
   onSubmit() {
     // console.log(this.formulario.valid);
 
+    let valueSubmit = Object.assign({}, this.formulario.value);
+
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+      .map((v: any, i: any) => v ? this.frameworks[i] : null ).filter((v: any) => v !== null)
+    });
+
+    console.log(valueSubmit);
+
     if (this.formulario.valid) {
       this.http.post('https://httpbin.org/post',
-        JSON.stringify(this.formulario.value))
+        JSON.stringify(valueSubmit))
         .pipe(map(res => res)).subscribe(dados => {
           console.log(dados);
           // this.formulario.reset();
