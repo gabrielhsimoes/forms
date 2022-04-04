@@ -36,16 +36,37 @@
         <br>
     </div>
 
+    <div class="form-group" [ngClass]="aplicaCSSErro('confirmarEmail')">
+
+        <div class="col-sm-12">
+            <label for="confirmarEmail" class="form-label">Confirmar Email:</label>
+        </div>
+
+        <div class="col-sm-12">
+            <input type="email" class="form-control" formControlName="confirmarEmail" id="confirmarEmail" placeholder="nome@email.com"
+                required />
+
+        </div>
+        <div *ngIf="formulario.get('confirmarEmail')?.hasError('equalsTo')" class="alert alert-danger" role="alert">
+            Emails não são iguais!
+        </div>
+
+        <br>
+    </div>
+
     <div formGroupName="endereco">
 
         <div class="form-group row">
 
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.cep')">
                 <label for="cep" class="control-label">CEP:</label>
-                <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultaCEP()" required>
+                <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultaCEP()" >
 
-                <div *ngIf="verificaValidTouched('endereco.cep')" class="alert alert-danger" role="alert">
+                <div *ngIf="verificaRequired('endereco.cep')" class="alert alert-danger" role="alert">
                     CEP é Obrigatório!
+                </div>
+                <div *ngIf="CEPHasError()" class="alert alert-danger" role="alert">
+                    CEP é Inválido!
                 </div>
 
             </div>
@@ -179,7 +200,7 @@
             </div>
             </div>
         </div>
-        <div *ngIf="verificaValidTouched('frameworks')" class="alert alert-danger" role="alert">
+        <div *ngIf="!this.formulario.get('frameworks')?.valid" class="alert alert-danger" role="alert">
             Selecione uma opção
         </div>
        
