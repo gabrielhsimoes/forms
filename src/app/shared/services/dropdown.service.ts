@@ -4,38 +4,36 @@ import { Observable } from 'rxjs';
 import { EstadoBr } from '../models/estado-br';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DropdownService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getEstadosBr():Observable<any>{
-
+  getEstadosBr(): Observable<any> {
     return this.http.get<EstadoBr>('assets/dados/estadorbr.json').pipe();
   }
 
-  getCargos(){
+  getCargos() {
     return [
       { nome: 'Dev', nivel: 'Junior', desc: 'Dev Jr' },
       { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl' },
-      { nome: 'Dev', nivel: 'Senior', desc: 'Dev Sr' }
+      { nome: 'Dev', nivel: 'Senior', desc: 'Dev Sr' },
     ];
   }
 
-  getTecnologias(){
+  getTecnologias() {
     return [
       { nome: 'java', desc: 'Java' },
       { nome: 'javascript', desc: 'Javascript' },
       { nome: 'php', desc: 'PHP' },
-      { nome: 'ruby', desc: 'Ruby' }
+      { nome: 'ruby', desc: 'Ruby' },
     ];
   }
 
-  getNewsletter(){
+  getNewsletter() {
     return [
       { valor: 's', desc: 'Sim' },
-      { valor: 'n', desc: 'Não' }
+      { valor: 'n', desc: 'Não' },
     ];
   }
 }

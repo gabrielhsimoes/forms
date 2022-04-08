@@ -1,66 +1,52 @@
-<form novalidate [formGroup]="formulario" (ngSubmit)="onSubmit()">
-    <div class="form-group" [ngClass]="aplicaCSSErro('nome')">
-        <div class="col-sm-12">
-            <label for="nome" class="form-label">Nome:</label>
-        </div>
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
 
-        <div class="col-sm-12">
-            <input type="text" class="form-control" formControlName="nome" id="nome" placeholder="Nome" required />
-
-        </div>
-
-        <!-- *ngIf="!formulario.controls['nome'].valid && formulario.controls['nome'].touched"  -->
-        <div *ngIf="verificaValidTouched('nome')" class="alert alert-danger" role="alert">
-            Nome é Obrigatório
-        </div>
-
-    </div>
+    <app-input-field class="col-sm-12" formControlName="nome" [classeCSS]="aplicaCSSErro('nome')" id="nome" label="Nome"
+        [control]="formulario.get('nome')" required></app-input-field>
     <br />
 
-    <div class="form-group" [ngClass]="aplicaCSSErro('email')">
+    <div class="form-group">
+        <app-input-field class="col-sm-12" formControlName="email" [classeCSS]="aplicaCSSErro('email')" id="email"
+            label="Email" [control]="formulario.get('email')" required></app-input-field>
 
-        <div class="col-sm-12">
-            <label for="email" class="form-label">Email:</label>
-        </div>
-
-        <div class="col-sm-12">
-            <input type="email" class="form-control" formControlName="email" id="email" placeholder="nome@email.com"
-                required />
-
-        </div>
         <!-- *ngIf="!formulario.controls['email'].valid && formulario.controls['email'].touched"  -->
         <div *ngIf="verificaValidTouched('email')" class="alert alert-danger" role="alert">
             Email é Obrigatório
         </div>
+        <div *ngIf="formulario.get('email')?.status === 'PENDING'" class="alert alert-danger" role="alert">
+            Validando email...
+        </div>
+        <div *ngIf="formulario.get('email')?.status === 'VALID'" class="alert alert-success" role="alert">
+            Email válido!
+        </div>
+        <div *ngIf="formulario.get('email')?.hasError('emailInvalido')" class="alert alert-warning" role="alert">
+            Email já cadastrado!
+        </div>
 
-        <br>
+        <br />
     </div>
 
     <div class="form-group" [ngClass]="aplicaCSSErro('confirmarEmail')">
-
         <div class="col-sm-12">
             <label for="confirmarEmail" class="form-label">Confirmar Email:</label>
         </div>
 
         <div class="col-sm-12">
-            <input type="email" class="form-control" formControlName="confirmarEmail" id="confirmarEmail" placeholder="nome@email.com"
-                required />
-
+            <input type="email" class="form-control" formControlName="confirmarEmail" id="confirmarEmail"
+                placeholder="nome@email.com" required />
         </div>
         <div *ngIf="formulario.get('confirmarEmail')?.hasError('equalsTo')" class="alert alert-danger" role="alert">
             Emails não são iguais!
         </div>
 
-        <br>
+        <br />
     </div>
 
     <div formGroupName="endereco">
-
         <div class="form-group row">
-
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.cep')">
                 <label for="cep" class="control-label">CEP:</label>
-                <input type="text" class="form-control" id="cep" formControlName="cep" (blur)="consultaCEP()" >
+                <!-- (blur)="consultaCEP()" -->
+                <input type="text" class="form-control" id="cep" formControlName="cep" />
 
                 <div *ngIf="verificaRequired('endereco.cep')" class="alert alert-danger" role="alert">
                     CEP é Obrigatório!
@@ -68,26 +54,23 @@
                 <div *ngIf="CEPHasError()" class="alert alert-danger" role="alert">
                     CEP é Inválido!
                 </div>
-
             </div>
 
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.numero')">
                 <label for="numero" class="control-label">Número:</label>
-                <input type="text" class="form-control" id="numero" formControlName="numero" required>
+                <input type="text" class="form-control" id="numero" formControlName="numero" required />
 
                 <div *ngIf="verificaValidTouched('endereco.numero')" class="alert alert-danger" role="alert">
                     Número é Obrigatório!
                 </div>
-
             </div>
 
             <div class="col-md-6">
                 <label for="complemento" class="control-label">Complemento:</label>
-                <input type="text" class="form-control" id="complemento" formControlName="complemento">
-
+                <input type="text" class="form-control" id="complemento" formControlName="complemento" />
             </div>
         </div>
-        <br>
+        <br />
         <div class="form-group" [ngClass]="aplicaCSSErro('endereco.rua')">
             <div class="col-sm-12">
                 <label for="rua" class="form-label">Rua:</label>
@@ -100,85 +83,82 @@
                     Rua é Obrigatório
                 </div>
             </div>
-
         </div>
-        <br>
+        <br />
         <div class="form-group row">
             <div class="col-md-5" [ngClass]="aplicaCSSErro('endereco.bairro')">
                 <label for="bairro" class="control-label">Bairro:</label>
-                <input type="text" class="form-control" id="bairro" formControlName="bairro" required>
+                <input type="text" class="form-control" id="bairro" formControlName="bairro" required />
 
                 <div *ngIf="verificaValidTouched('endereco.bairro')" class="alert alert-danger" role="alert">
                     Bairro é Obrigatório!
                 </div>
-
             </div>
 
             <div class="col-md-4" [ngClass]="aplicaCSSErro('endereco.cidade')">
                 <label for="cidade" class="control-label">Cidade:</label>
-                <input type="text" class="form-control" id="cidade" formControlName="cidade" required>
+                <input type="text" class="form-control" id="cidade" formControlName="cidade" required />
 
                 <div *ngIf="verificaValidTouched('endereco.cidade')" class="alert alert-danger" role="alert">
                     Cidade é Obrigatório!
                 </div>
-
             </div>
 
             <div class="col-md-3" [ngClass]="aplicaCSSErro('endereco.estado')">
                 <label for="estado" class="control-label">Estado:</label>
                 <select class="form-select" id="estado" formControlName="estado" required>
-
-                    <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nome }}</option>
-
+                    <option *ngFor="let estado of estados | async" [value]="estado.sigla">
+                        {{ estado.nome }}
+                    </option>
                 </select>
 
                 <div *ngIf="verificaValidTouched('endereco.estado')" class="alert alert-danger" role="alert">
                     Estado é Obrigatório!
                 </div>
-
             </div>
-
         </div>
     </div>
-    <br>
+    <br />
 
     <div class="form-group row">
         <div class="col-md-4" [ngClass]="aplicaCSSErro('cargo')">
             <label for="cargo" class="control-label">Cargo:</label>
             <select class="form-select" id="cargo" formControlName="cargo" required [compareWith]="compararCargos">
-
-                <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{ cargo.desc }}</option>
-
+                <option *ngFor="let cargo of cargos" [ngValue]="cargo">
+                    {{ cargo.desc }}
+                </option>
             </select>
-
         </div>
 
         <div class="col-md-4" [ngClass]="aplicaCSSErro('tecnologias')">
             <label for="tecnologias" class="control-label">Tecnologias:</label>
             <select multiple class="form-select" id="tecnologias" formControlName="tecnologias" required>
-                <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{ tecnologia.desc }}</option>
+                <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">
+                    {{ tecnologia.desc }}
+                </option>
             </select>
         </div>
-
 
         <div class="col-md-3" [ngClass]="aplicaCSSErro('newsletter')">
             <label for="newsletter" class="control-label">Newsletter:</label>
             <div id="newsletter row">
                 <div class="col-sm-4" *ngFor="let item of newsletterOp">
                     <label for="" class="form-check-inline">
-                        <input type="radio" [value]="item.valor" formControlName="newsletter"> {{ item.desc }}
+                        <input type="radio" [value]="item.valor" formControlName="newsletter" />
+                        {{ item.desc }}
                     </label>
                 </div>
             </div>
         </div>
     </div>
-    <br>
+    <br />
 
     <div class="form-group row">
         <div class="col-md-3" [ngClass]="aplicaCSSErro('termos')">
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="checkbox" formControlName="termos" required> Aceito os termos.
+                    <input type="checkbox" formControlName="termos" required /> Aceito os
+                    termos.
                 </label>
             </div>
         </div>
@@ -188,30 +168,35 @@
 
         <div class="col-md-3" [ngClass]="aplicaCSSErro('frameworks')">
             <div class="row">
-            <label for="frameworks">Frameworks:</label>
-            <div id="frameworks">
-                <div class="form-check col-sm-4" formArrayName="frameworks" 
-                *ngFor="let item of getFrameworksControls(); let i = index">
-                    <label class="form-check-label">
-                        <input type="checkbox" required [formControlName]="i"> {{ frameworks[i] }}
-                    </label>
+                <label for="frameworks">Frameworks:</label>
+                <div id="frameworks">
+                    <div class="form-check col-sm-4" formArrayName="frameworks"
+                        *ngFor="let item of getFrameworksControls(); let i = index">
+                        <label class="form-check-label">
+                            <input type="checkbox" required [formControlName]="i" />
+                            {{ frameworks[i] }}
+                        </label>
+                    </div>
                 </div>
-                
-            </div>
             </div>
         </div>
         <div *ngIf="!this.formulario.get('frameworks')?.valid" class="alert alert-danger" role="alert">
             Selecione uma opção
         </div>
-       
     </div>
-    <br>
-    <button type="submit" class="btn btn-primary" style="margin-right: 0.5em;"> Submit </button>
+    <br />
+    <button type="submit" class="btn btn-primary" style="margin-right: 0.5em">
+        Submit
+    </button>
 
-    <button class="btn btn-danger" (click)="resetar()"> Cancelar </button>
+    <button class="btn btn-danger" (click)="resetar()">Cancelar</button>
 
-    <button class="btn btn-info" (click)="setarCargo()" style="margin-left: 0.5em;"> Cargo </button>
-    <button class="btn btn-info" (click)="setarTecnologias()" style="margin-left: 0.5em;"> Tecnologias </button>
-
+    <button class="btn btn-info" (click)="setarCargo()" style="margin-left: 0.5em">
+        Cargo
+    </button>
+    <button class="btn btn-info" (click)="setarTecnologias()" style="margin-left: 0.5em">
+        Tecnologias
+    </button>
+    
     <app-form-debug [form]="formulario"></app-form-debug>
 </form>
